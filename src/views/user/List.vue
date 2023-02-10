@@ -1,21 +1,25 @@
 <script setup lang="ts">
 import { h, ref } from 'vue'
 import { repeat } from 'seemly'
-import { NButton, useMessage, type DataTableColumns } from 'naive-ui'
+import { NAvatar, NButton, useMessage, type DataTableColumns } from 'naive-ui'
 
 const message = useMessage();
 
 type RowData = {
+  id: number
   name: string
-  age: number
-  address: string
+  avatar: string
+  createdAt: string
+  status: number
   key: number
 }
 
 const data = repeat(46, undefined).map<RowData>((_, index) => ({
-  name: `Edward King ${index}`,
-  age: 32,
-  address: `London, Park Lane no. ${index}`,
+  id: index,
+  name: '用户' + index,
+  avatar: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
+  createdAt: Date().toString(),
+  status: Math.floor(Math.random() * 3),
   key: index
 }))
 
@@ -23,37 +27,38 @@ const checkedRowKeys = ref<Array<string | number>>([])
 const columns: DataTableColumns<RowData> = [
   {
     type: 'selection',
-    options: [
-      'all',
-      'none',
-      {
-        label: 'Select first 2 rows',
-        key: 'f2',
-        onSelect: (pageData) => {
-          checkedRowKeys.value = pageData
-            .map((row) => row.key)
-            .slice(0, 2)
-        }
-      }
-    ],
-    disabled(row) {
-      return row.name === 'Edward King 3'
-    }
   },
   {
-    title: 'Name',
+    title: 'id',
+    key: 'id'
+  },
+  {
+    title: '昵称',
     key: 'name'
   },
   {
-    title: 'Age',
-    key: 'age'
+    title: '头像',
+    key: 'avatar',
+    render(row) {
+      return h(
+        NAvatar,
+        {
+          size: 'small',
+          src: row.avatar,
+        }
+      )
+    }
   },
   {
-    title: 'Address',
-    key: 'address'
+    title: '注册时间',
+    key: 'createdAt'
   },
   {
-    title: 'Action',
+    title: '账号状态',
+    key: 'status'
+  },
+  {
+    title: '操作',
     key: 'actions',
     render(row) {
       return h(
@@ -62,14 +67,14 @@ const columns: DataTableColumns<RowData> = [
           size: 'small',
           onClick: () => message.info(JSON.stringify(row))
         },
-        { default: () => 'Send Email' }
+        { default: () => '封禁' }
       )
     }
   }
 ]
 
 const pagination = {
-  pageSize: 6
+  pageSize: 10
 };
 </script>
 
