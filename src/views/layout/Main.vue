@@ -65,7 +65,7 @@ const userOptions = [
 <template>
   <n-layout has-sider class="min-h-screen">
     <n-layout-sider class="bg-gray-50 min-h-screen">
-      <h1 class="text-xl text-center py-2">后台喵</h1>
+      <h1 class="text-xl text-center py-2">喵后台</h1>
       <n-menu :options="menuOptions" @update:value="handleUpdateValue" />
     </n-layout-sider>
     <n-layout>
