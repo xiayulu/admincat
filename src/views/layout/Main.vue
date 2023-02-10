@@ -5,10 +5,12 @@ import { renderIcon } from "@/utils";
 import { useRouter } from "vue-router";
 import { adminRoot } from "@/router/add";
 
+const message = useMessage();
+
+// 导航菜单
 const router = useRouter();
 const menuOptions: any = ref([]);
 const menu = window.localStorage.getItem("menu");
-const message = useMessage();
 
 function getMenuOptions(menu: any[], parents: string[]): any {
   return menu.map(item => {
@@ -39,14 +41,48 @@ if (menu) {
 function handleUpdateValue(key: string, _item: MenuOption) {
   router.push(key);
 }
+
+// 用户菜单
+const userOptions = [
+  {
+    label: 'Profile',
+    key: 'profile',
+    icon: renderIcon("icon-user")
+  },
+  {
+    label: 'Edit Profile',
+    key: 'editProfile',
+    icon: renderIcon("icon-edit")
+  },
+  {
+    label: 'Logout',
+    key: 'logout',
+    icon: renderIcon("icon-logout")
+  }
+];
 </script>
 
 <template>
-  <n-layout has-sider>
-    <n-layout-sider content-style="padding: 24px;">
+  <n-layout has-sider class="min-h-screen">
+    <n-layout-sider class="bg-gray-50 min-h-screen">
       <h1>管理后台</h1>
       <n-menu :options="menuOptions" @update:value="handleUpdateValue" />
     </n-layout-sider>
-    <router-view></router-view>
+    <n-layout>
+      <n-layout-header class="py-2 pr-4">
+        <div class="flex items-center">
+          <Icon name="icon-hanbaocaidan" size="2em"></Icon>
+          <div class="ml-auto flex items-center">
+            <n-dropdown :options="userOptions">
+              <n-button class="mx-4">Admin</n-button>
+            </n-dropdown>
+            <Icon name="icon-settings" size="2em"></Icon>
+          </div>
+        </div>
+      </n-layout-header>
+      <n-layout-content>
+        <router-view></router-view>
+      </n-layout-content>
+    </n-layout>
   </n-layout>
 </template>
