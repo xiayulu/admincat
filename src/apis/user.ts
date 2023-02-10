@@ -16,8 +16,8 @@ function getMenuData() {
           icon: 'icon-HTML-fill'
         },
         {
-          label: '用户书籍',
-          key: 'book',
+          label: '用户资产',
+          key: 'assert',
           icon: 'icon-user'
         }
       ]

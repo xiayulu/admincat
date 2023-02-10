@@ -69,7 +69,7 @@ const userOptions = [
       <n-menu :options="menuOptions" @update:value="handleUpdateValue" />
     </n-layout-sider>
     <n-layout>
-      <n-layout-header class="py-2 pr-4">
+      <n-layout-header class="py-2 pl-2 pr-4">
         <div class="flex items-center">
           <Icon name="icon-hanbaocaidan" size="2em"></Icon>
           <div class="ml-auto flex items-center">
@@ -80,7 +80,7 @@ const userOptions = [
           </div>
         </div>
       </n-layout-header>
-      <n-layout-content>
+      <n-layout-content content-style="padding: 8px;">
         <router-view></router-view>
       </n-layout-content>
     </n-layout>
