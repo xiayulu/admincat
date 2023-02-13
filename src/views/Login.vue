@@ -11,6 +11,8 @@ import { useMessage } from 'naive-ui';
 import { login } from "@/apis/user";
 import { addRouterFromMenu, adminRoot } from "@/router/add";
 import { useRouter } from "vue-router";
+import { useTokenStore } from "@/stores/token";
+import { useMenuStore } from "@/stores/menu";
 
 interface ModelType {
   name: string
@@ -20,7 +22,8 @@ interface ModelType {
 
 let router = useRouter();
 const formRef = ref<FormInst | null>(null)
-
+const tokenStore = useTokenStore();
+const menuStore = useMenuStore();
 const message = useMessage()
 const model = ref<ModelType>({
   name: "",
@@ -43,26 +46,27 @@ const rules: FormRules = {
 }
 
 function handleValidateButtonClick(e: MouseEvent) {
-  formRef.value?.validate((errors: Array<FormValidationError> | undefined) => {
+  formRef.value?.validate(async (errors: Array<FormValidationError> | undefined) => {
     if (errors) {
       console.log(errors)
       message.error('Invalid')
       return;
     }
 
-    const { data } = login(model.value.name, model.value.password);
-
-    if (!data) {
+    const data = await login(model.value.name, model.value.password);
+    if (data.code) {
       message.error("登录失败");
       return;
     }
 
+    console.log("data:", data);
+
     //保存token
-    window.localStorage.setItem("token", data.token);
+    tokenStore.saveToken(data.data?.token || "", data.data?.expiredAt || "");
 
     // 保存 menu
-    const menu = data.menu;
-    window.localStorage.setItem("menu", JSON.stringify(menu));
+    const menu = data.data?.menu || [];
+    menuStore.saveMenu(menu);
 
     // 增加动态路由
     addRouterFromMenu(router, menu, [adminRoot]);

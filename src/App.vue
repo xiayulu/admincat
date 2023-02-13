@@ -14,7 +14,6 @@ if (menuString) {
   const hash = window.location.hash;
   if (hash) {
     const path = hash.replace("#", "");
-    console.log("path", path);
     if (path) {
       router.push(path);
     }

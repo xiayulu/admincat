@@ -1,3 +1,8 @@
+import http from '@/utils/request';
+
+
+import type { LoginRes } from '@/types/user';
+
 function getMenuData() {
   return [
     {
@@ -42,21 +47,26 @@ function getMenuData() {
   ]
 }
 
-export function login(username: string, password: string) {
-  if (username === '123' && password === '123') {
+export async function login(name: string, password: string) {
+  try {
+    const resp = await http.post<unknown, { data: LoginRes }>(`/login`, { name, password, });
+
+    console.log("login data", resp);
+    const { data } = resp;
     return {
-      code: 200,
+      code: 0,
       msg: "ok",
       data: {
-        token: "123456",
+        token: data.token,
+        expiredAt: data.expiredAt,
         menu: getMenuData()
       },
     }
-  }
-
-  return {
-    code: "10086",
-    msg: "ok",
-    data: null,
+  } catch (e) {
+    return {
+      code: -1,
+      msg: "login faild",
+      data: null,
+    }
   }
 }
