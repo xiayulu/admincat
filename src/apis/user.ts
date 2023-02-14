@@ -8,13 +8,13 @@ function getMenuData() {
     {
       name: 'Dashboard',
       path: 'dashboard',
-      icon: 'icon-homefill',
+      icon: 'icon-shouyedashboard',
       comp: 'dashboard'
     },
     {
       name: '用户管理',
       path: 'users',
-      icon: 'icon-homefill',
+      icon: 'icon-friends',
       comp: 'users',
       children: [
         {
@@ -28,7 +28,7 @@ function getMenuData() {
     {
       name: '书籍管理',
       path: 'books',
-      icon: 'icon-homefill',
+      icon: 'icon-hc-course',
       comp: 'books',
       children: [
         {
