@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { addRouterFromMenu, adminRoot } from "@/router/add";
+import { addRouterFromMenu } from "@/router/add";
 
 const router = useRouter();
 
