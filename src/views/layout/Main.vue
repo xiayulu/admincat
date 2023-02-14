@@ -13,25 +13,37 @@ const menuOptions: any = ref([]);
 const menu = window.localStorage.getItem("menu");
 
 function getMenuOptions(menu: any[], parents: string[]): any {
-  return menu.map(item => {
-    const newParents = [...parents, item.key];
-    if (Object.prototype.hasOwnProperty.call(item, 'children')
-      && item.children
-      && item.children.length > 0) {
-      return {
-        label: item.label,
-        key: newParents.join("/"),
-        icon: renderIcon(item.icon),
-        children: getMenuOptions(item.children, newParents),
+  return menu
+    .filter(item => Boolean(item.icon)) // no icon, no menu
+    .map(item => {
+      const newParents = [...parents, item.key];
+      if (Object.prototype.hasOwnProperty.call(item, 'children')
+        && item.children
+        && item.children.length > 0) {
+
+        const children = getMenuOptions(item.children, newParents);
+        if (children.length > 0) {
+          return {
+            label: item.name,
+            key: item.path,
+            icon: renderIcon(item.icon),
+            children,
+          }
+        } else {
+          return {
+            label: item.name,
+            key: item.path,
+            icon: renderIcon(item.icon),
+          }
+        }
+      } else {
+        return {
+          label: item.name,
+          key: item.path,
+          icon: renderIcon(item.icon),
+        }
       }
-    } else {
-      return {
-        label: item.label,
-        key: newParents.join("/"),
-        icon: renderIcon(item.icon),
-      }
-    }
-  })
+    })
 }
 
 if (menu) {
@@ -39,7 +51,7 @@ if (menu) {
 }
 
 function handleUpdateValue(key: string, _item: MenuOption) {
-  router.push(key);
+  router.push(`/admin/${key}`);
 }
 
 // 用户菜单

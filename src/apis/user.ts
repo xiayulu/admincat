@@ -6,41 +6,35 @@ import type { LoginRes, User } from '@/types/user';
 function getMenuData() {
   return [
     {
-      label: "Dashboard",
-      key: 'dashboard',
+      name: 'Dashboard',
+      path: 'dashboard',
       icon: 'icon-homefill',
+      comp: 'dashboard'
     },
     {
-      label: '用户管理',
-      key: 'user',
+      name: '用户管理',
+      path: 'users',
       icon: 'icon-homefill',
+      comp: 'users',
       children: [
         {
-          label: '用户列表',
-          key: 'list',
-          icon: 'icon-HTML-fill'
+          name: '用户详情',
+          path: 'users/:userId',
+          comp: "userdetail"
+          // no menu shows when no icon set
         },
-        {
-          label: '用户资产',
-          key: 'assert',
-          icon: 'icon-user'
-        }
       ]
     },
     {
-      label: '书籍管理',
-      key: 'book',
+      name: '书籍管理',
+      path: 'books',
       icon: 'icon-homefill',
+      comp: 'books',
       children: [
         {
-          label: '书籍列表',
-          key: 'list',
-          icon: 'icon-HTML-fill'
-        },
-        {
-          label: '课程活动',
-          key: 'activity',
-          icon: 'icon-user'
+          name: '书籍详情',
+          path: 'books/:bookId',
+          comp: "bookdetail"
         }
       ]
     },

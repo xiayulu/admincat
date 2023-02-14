@@ -69,7 +69,7 @@ function handleValidateButtonClick(e: MouseEvent) {
     menuStore.saveMenu(menu);
 
     // 增加动态路由
-    addRouterFromMenu(router, menu, [adminRoot]);
+    addRouterFromMenu(router, menu);
 
     //页面跳转
     message.success("登录成功");

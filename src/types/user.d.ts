@@ -9,6 +9,7 @@ export type User = {
   avatar: string
   bio: string
   isAdmin: boolean
+  createdAt: string
   sex: number
   exp: number
 }

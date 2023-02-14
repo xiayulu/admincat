@@ -2,7 +2,7 @@
 
 </script>
 <template>
-  <div>用户资产</div>
+  users;
 </template>
 
 <style scoped lang="scss">

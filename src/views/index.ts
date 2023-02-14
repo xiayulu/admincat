@@ -1,19 +1,15 @@
-import book from './book/Index.vue';
-import bookactivity from './book/Activity.vue';
-import booklist from './book/List.vue';
-import user from './user/Index.vue';
-import userassert from './user/Assert.vue';
-import userlist from './user/List.vue';
+import books from './book/Index.vue';
+import bookdetail from './book/Detail.vue';
+import userdetail from './user/Detail.vue';
+import users from './user/Index.vue';
 import dashboard from './DashBoard.vue';
 
 const components: any = {
-  book,
-  bookactivity,
-  booklist,
-  user,
-  userassert,
-  userlist,
   dashboard,
+  books,
+  bookdetail,
+  users,
+  userdetail,
 }
 
 export default components;

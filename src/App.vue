@@ -9,13 +9,14 @@ const menuString = window.localStorage.getItem("menu");
 if (menuString) {
   const menu = JSON.parse(menuString);
 
-  addRouterFromMenu(router, menu, [adminRoot]);
+  addRouterFromMenu(router, menu);
 
   const hash = window.location.hash;
   if (hash) {
     const path = hash.replace("#", "");
     if (path) {
       router.push(path);
+      console.log(router.getRoutes())
     }
   }
 }

@@ -3,24 +3,16 @@ import components from "@/views";
 
 export const adminRoot = 'admin';
 
-export function addRouterFromMenu(router: Router, menu: any[], parents: string[]) {
+export function addRouterFromMenu(router: Router, menu: any[]) {
   menu.forEach(item => {
-    const newParents = [...parents, `${item.key}`];
-    if (Object.prototype.hasOwnProperty.call(item, 'children')
-      && item.children
-      && item.children.length > 0) {
-      router.addRoute(parents.join(""), {
-        path: `${item.key}`,
-        name: newParents.join(""),
-        component: components[newParents.join("").replace(adminRoot, "")]
-      })
-      addRouterFromMenu(router, item.children, newParents);
-    } else {
-      router.addRoute(parents.join(""), {
-        path: `${item.key}`,
-        name: newParents.join(""),
-        component: components[newParents.join("").replace(adminRoot, "")]
-      })
+    router.addRoute("admin", {
+      path: item.path,
+      name: item.name,
+      component: components[item.comp]
+    });
+
+    if (item.children && item.children.length > 0) {
+      addRouterFromMenu(router, item.children);
     }
   })
 }
