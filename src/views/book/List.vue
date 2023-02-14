@@ -1,24 +1,23 @@
 <script setup lang="ts">
 import { NButton, NImage, type DataTableColumns } from 'naive-ui';
-import { ref, reactive, onMounted, h } from 'vue'
+import { ref, reactive, h } from 'vue'
 import BookAbout from '@/components/BookAbout.vue';
 import CreateBook from '@/snippet/CreateBook.vue';
-import type { Book } from '@/types/book';
 import { getBooks } from '@/apis/book';
+import type { Book } from '@/types/book';
 
+// start show table data
 type RowData = {
   id: number
   name: string
   about: string
   cover: string
   category: string
-  hard: string
+  hard: number
   repoName: string
   createdAt: string
   status: number
-  key: number
 }
-
 
 const columns: DataTableColumns<RowData> = [
   {
@@ -74,18 +73,8 @@ const columns: DataTableColumns<RowData> = [
     key: 'createdAt',
   },
   {
-    title: '操作',
-    key: 'actions',
-    render(row) {
-      return h(
-        NButton,
-        {
-          size: 'small',
-          onClick: () => alert(JSON.stringify(row))
-        },
-        { default: () => '封禁' }
-      )
-    }
+    title: 'RepoName',
+    key: 'repoName',
   }
 ]
 
@@ -108,7 +97,6 @@ async function fetchBooks(page: number = 1, pageSize: number = 15) {
     return {
       ...item,
       status: 0,
-      key: item.id
     }
   });
   loadingRef.value = false;
@@ -116,64 +104,18 @@ async function fetchBooks(page: number = 1, pageSize: number = 15) {
 
 fetchBooks();
 
-// const data = Array.from({ length: 987 }).map((_, index) => {
-//   return {
-//     id: index + 1,
-//     name: `Book ${index}`,
-//     about: `Set width="trigger" to make popover's width the same as its trigger.`,
-//     cover: "https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg",
-//     category: "数学",
-//     subcate: "微积分",
-//     status: 1,
-//     createdAt: new Date().toISOString()
-//   }
-// })
-
-
-// function query(page: number, pageSize = 15) {
-//   return new Promise((resolve) => {
-//     const pagedData = data.slice((page - 1) * pageSize, page * pageSize)
-//     const total = data.length
-//     const pageCount = Math.ceil(data.length / pageSize)
-//     setTimeout(
-//       () =>
-//         resolve({
-//           pageCount,
-//           data: pagedData,
-//           total
-//         }),
-//       500
-//     )
-//   })
-// }
-
-
-
-
-// onMounted(() => {
-//   query(
-//     paginationReactive.page,
-//     paginationReactive.pageSize,
-//   ).then((data: any) => {
-//     dataRef.value = data.data
-//     paginationReactive.pageCount = data.pageCount
-//     paginationReactive.itemCount = data.total
-//     loadingRef.value = false
-//   })
-// })
-
-
-function rowKey(rowData: any) {
-  return rowData.column1
+function rowKey(rowData: RowData) {
+  return rowData.id
 }
-
 
 async function handlePageChange(currentPage: number) {
   if (!loadingRef.value) {
     await fetchBooks(currentPage, paginationReactive.pageSize);
   }
 }
+// end show table data
 
+// create new book
 const showCreateModal = ref(false);
 
 function handleCreateModal() {
@@ -184,6 +126,7 @@ async function handleCreateSuccess() {
   showCreateModal.value = false;
   await fetchBooks(paginationReactive.page, paginationReactive.pageSize);
 }
+// end create new book
 </script>
 
 <template>
