@@ -1,7 +1,7 @@
 import http from '@/utils/request';
 
 
-import type { LoginRes } from '@/types/user';
+import type { LoginRes, User } from '@/types/user';
 
 function getMenuData() {
   return [
@@ -49,10 +49,7 @@ function getMenuData() {
 
 export async function login(name: string, password: string) {
   try {
-    const resp = await http.post<unknown, { data: LoginRes }>(`/login`, { name, password, });
-
-    console.log("login data", resp);
-    const { data } = resp;
+    const { data } = await http.post<unknown, { data: LoginRes }>(`/login`, { name, password, });
     return {
       code: 0,
       msg: "ok",
@@ -65,8 +62,12 @@ export async function login(name: string, password: string) {
   } catch (e) {
     return {
       code: -1,
-      msg: "login faild",
+      msg: "login failed",
       data: null,
     }
   }
+}
+
+export async function getUsers(page: number = 1, perPage: number = 15) {
+  return http.get<unknown, { data: User[] }>(`/users?page=${page}&perPage=${perPage}`);
 }

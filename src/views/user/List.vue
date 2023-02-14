@@ -3,6 +3,10 @@ import { h, ref } from 'vue'
 import { repeat } from 'seemly'
 import { NAvatar, NButton, useMessage, type DataTableColumns } from 'naive-ui'
 
+import { getUsers } from '@/apis/user';
+
+import type { User } from '@/types/user';
+
 const message = useMessage();
 
 type RowData = {
@@ -14,14 +18,24 @@ type RowData = {
   key: number
 }
 
-const data = repeat(46, undefined).map<RowData>((_, index) => ({
-  id: index,
-  name: '用户' + index,
-  avatar: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
-  createdAt: Date().toString(),
-  status: Math.floor(Math.random() * 3),
-  key: index
-}))
+const data = ref<RowData[]>([]);
+const pagination = {
+  pageSize: 15
+};
+
+
+async function fetchUsers() {
+  const { data: users } = await getUsers();
+  data.value = users.map((item: User) => {
+    return {
+      ...item,
+      status: 0,
+      key: item.id
+    }
+  })
+}
+
+fetchUsers();
 
 const checkedRowKeys = ref<Array<string | number>>([])
 const columns: DataTableColumns<RowData> = [
@@ -73,9 +87,6 @@ const columns: DataTableColumns<RowData> = [
   }
 ]
 
-const pagination = {
-  pageSize: 10
-};
 </script>
 
 <template>
