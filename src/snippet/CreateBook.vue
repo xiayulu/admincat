@@ -101,7 +101,7 @@ const model = ref<ModelType>({
   category: bookCategories[0].value,
   subcategory: "",
   hard: 1,
-  cover: ""
+  cover: "",
 });
 
 async function handleSubmit(e: MouseEvent) {
