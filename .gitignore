@@ -1,6 +1,7 @@
 # secret
 
 .env
+.env.prod
 
 # Logs
 logs
